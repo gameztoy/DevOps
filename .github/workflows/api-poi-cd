@@ -1,0 +1,39 @@
+name: api-poi-cd
+
+env:
+  poi_path: apis/poi/**
+  registry: openhackxqzxmauhbxtiiacr.azurecr.io
+  repository: devopsoh/api-poi
+  docker_path: apis/poi/web
+  staging_url: https://openhackdevopsapp-poi-0x001-staging.azurewebsites.net
+  prod_url: hhttps://openhackdevopsapp-poi-0x001.azurewebsites.net
+  resource_group: rgOpenHackDevOps20
+  webapp_name: openhackdevopsapp-poi-0x001
+  build_name: POI
+  ACR_URL: 'openhackxqzxmauhbxtiiacr.azurecr.io'
+  
+ on:
+  workflow_dispatch:
+    inputs: 
+      reason:
+        description: 'Reason'
+        required: true
+        default: 'N/A'
+        
+jobs: 
+  deploy_staging:
+  
+  - name: Azure authentication
+       uses: azure/login@v1
+       with:
+          creds: ${{ secrets.AZURE_CREDENTIALS  }}
+          
+  - name: Azure WebApp
+       uses: Azure/webapps-deploy@v2
+       with:
+        app-name: ${{ env.webapp_name }}
+        slot-name: staging
+        #images: openhackxqzxmauhbxtiiacr.azurecr.io/devopsoh/api-poi:7
+        images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}} 
+        
+        
