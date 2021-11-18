@@ -5,6 +5,10 @@ on:
     branches: [ main ]
     paths:
       - 'apis/poi/**'
+      
+env:
+  ACR_URL: 'openhackxqzxmauhbxtiiacr.azurecr.io'
+  
 jobs:
   build:
 
@@ -45,3 +49,9 @@ jobs:
         script: |
           let body = "${{ env.build_name }} Worflow Failure \n Build Number: ${{ github.run_number }} \n Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) \n";
           github.issues.create
+          
+    - shell: bash
+      name: Docker build
+      env:
+        ACR: ${{ env.ACR_URL}}
+      run: docker build -t "$ACR"/devopsoh/api-poi:${{github.run_number}} --build-arg build_version=${{github.run_number}} apis/poi/web
