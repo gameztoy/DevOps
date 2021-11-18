@@ -12,7 +12,7 @@ env:
   build_name: POI
   ACR_URL: 'openhackxqzxmauhbxtiiacr.azurecr.io'
   
- on:
+on:
   workflow_dispatch:
     inputs: 
       reason:
@@ -21,19 +21,21 @@ env:
         default: 'N/A'
         
 jobs: 
-  deploy_staging:
-  
-  - name: Azure authentication
-       uses: azure/login@v1
-       with:
-          creds: ${{ secrets.AZURE_CREDENTIALS  }}
-          
-  - name: Azure WebApp
-       uses: Azure/webapps-deploy@v2
-       with:
-        app-name: ${{ env.webapp_name }}
-        slot-name: staging
-        #images: openhackxqzxmauhbxtiiacr.azurecr.io/devopsoh/api-poi:7
-        images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}} 
-        
-        
+    deploy_staging: 
+      runs-on: ubuntu-latest
+      
+      steps:
+        - name: Azure authentication
+          uses: azure/login@v1
+          with:
+                creds: ${{ secrets.AZURE_CREDENTIALS  }}
+
+        - name: Azure WebApp
+          uses: Azure/webapps-deploy@v2
+          with:
+            app-name: ${{ env.webapp_name }}
+            slot-name: staging
+              #images: openhackxqzxmauhbxtiiacr.azurecr.io/devopsoh/api-poi:7
+            images: ${{ env.registry }}/${{ env.repository }}:${{github.run_number}} 
+
+
