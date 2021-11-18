@@ -1,0 +1,7 @@
+name: API POI CI
+
+on:
+ push:
+    branches: [ main ]
+    paths:
+      - 'apis/poi/**'
