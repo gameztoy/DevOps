@@ -55,3 +55,17 @@ jobs:
       env:
         ACR: ${{ env.ACR_URL}}
       run: docker build -t "$ACR"/devopsoh/api-poi:${{github.run_number}} --build-arg build_version=${{github.run_number}} apis/poi/web
+      
+    - shell: bash
+      name: Docker Login
+      env:
+        ACR_KEY: ${{ secrets.ACR_KEY }}
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        ACR: ${{ env.ACR_URL}}
+      run: docker login "$ACR" -u "$DOCKER_USER" -p "$ACR_KEY"
+      
+    - shell: bash
+      name: Docker Push
+      env:
+        ACR: ${{ env.ACR_URL}}      
+      run: docker push "$ACR"/devopsoh/api-poi:${{github.run_number}}
