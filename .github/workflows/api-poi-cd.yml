@@ -40,5 +40,12 @@ jobs:
             slot-name: staging
               #images: openhackxqzxmauhbxtiiacr.azurecr.io/devopsoh/api-poi:7
             images: ${{ env.registry }}/${{ env.repository }}:${{ github.event.inputs.imagetag }} 
-
-
+          
+        - name: Web Validate
+          env:
+            URL: ${{ env.staging_url }}
+          run: |
+              sleep 30
+              res=$(curl -s -w "%{http_code}" -o resp.txt "$URL"/api/healthcheck/poi); if [ $res -eq 200 ]; then echo "HTTP:"$res; else exit $res; fi
+              cat resp.txt
+              if grep -q "Healthy" resp.txt ; then echo "API POI Healthy"; else exit 2; fi
