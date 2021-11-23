@@ -65,8 +65,14 @@ jobs:
 
     swap_staging_prod: 
       runs-on: ubuntu-latest
+      needs: deploy_staging
       
       steps:
+        - name: Azure authentication
+          uses: azure/login@v1
+          with:
+                creds: ${{ secrets.AZURE_CREDENTIALS  }}
+                
         - name: slot swap / stagging production
           run: az webapp deployment slot swap  -g rgopenhackdevops20 -n openhackdevopsapp-poi-0x001 --slot staging --target-slot production
 
