@@ -6,7 +6,7 @@ env:
   repository: devopsoh/api-poi
   docker_path: apis/poi/web
   staging_url: https://openhackdevopsapp-poi-0x001-staging.azurewebsites.net
-  prod_url: hhttps://openhackdevopsapp-poi-0x001.azurewebsites.net
+  prod_url: https://openhackdevopsapp-poi-0x001.azurewebsites.net
   resource_group: rgOpenHackDevOps20
   webapp_name: openhackdevopsapp-poi-0x001
   build_name: POI
