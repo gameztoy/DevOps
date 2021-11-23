@@ -10,7 +10,7 @@ namespace poi.Models
             Message = "POI Service Healthcheck"; 
             Status = "Healthy";
             //Status = "Broken...";
-            Version = "v13";
+            Version = "v14";
         }
         
         [Newtonsoft.Json.JsonProperty(PropertyName = "message")]
